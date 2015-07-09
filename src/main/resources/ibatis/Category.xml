@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+	PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap>
+	<typeAlias alias="Category" type="com.zkread.domain.Category"/>
+	<typeAlias alias="Article" type="com.zkread.domain.Article"/>
+	
+	<resultMap class="Category" id="CategoryMap">
+		<result property="id" 				column="ID"/>
+		<result property="name" 			column="NAME"/>
+		<result property="grepKeywords" 	column="GREP_KEYWORDS"/>
+		<result property="svmKeywords" 		column="SVM_KEYWORDS"/>
+		<result property="symbol"			column="SYMBOL"/>
+		<result property="scoreKeywords" 	column="SCORE_KEYWORDS"/>
+		<result property="rank" 			column="RANK"/>
+		<result property="state" 			column="STATE"/>
+	</resultMap>
+	
+	<resultMap class="Article" id="ArticleMap">
+		<result property="id" 			column="ID"/>
+		<result property="url" 			column="URL"/>
+		<result property="title" 		column="TITLE"/>
+		<result property="keywords" 	column="KEYWORDS"/>
+		<result property="description" 	column="DESCRIPTION"/>
+		<result property="content" 		column="CONTENT"/>
+		<result property="createTime" 	column="CREATE_TIME"/>
+		<result property="crawlerTime" 	column="CRAWLER_TIME"/>
+		<result property="state" 		column="STATE"/>
+	</resultMap>
+	
+	<select id="getCategoryById" parameterClass="long" resultMap="CategoryMap">
+		SELECT ID, NAME, GREP_KEYWORDS, SVM_KEYWORDS, SYMBOL, SCORE_KEYWORDS, RANK, STATE
+		FROM CATEGORY
+		WHERE STATE = 1 
+			  AND ID = #id#
+	</select>
+	
+	<select id="getCategoryArticles" parameterClass="long" resultMap="ArticleMap">
+		SELECT ID, URL, TITLE, KEYWORDS, DESCRIPTION, CONTENT, CREATE_TIME, CRAWLER_TIME, STATE
+		FROM ARTICLE article, CATEGORY_ARTICLE categoryArticle
+		WHERE article.STATE = 1 
+			  AND categoryArticle.STATE = 1
+			  AND categoryArticle.ARTICLE_ID = article.ARTICLE_ID
+			  and categoryArticle.CATEGORY_ID = #categoryId#
+	</select>
+	
+</sqlMap>

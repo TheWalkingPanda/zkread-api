@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+	PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap>
+	<typeAlias alias="Article" type="com.zkread.domain.Article"/>
+	
+	<resultMap class="Article" id="ArticleMap">
+		<result property="id" 			column="ID"/>
+		<result property="url" 			column="URL"/>
+		<result property="title" 		column="TITLE"/>
+		<result property="keywords" 	column="KEYWORDS"/>
+		<result property="description" 	column="DESCRIPTION"/>
+		<result property="content" 		column="CONTENT"/>
+		<result property="createTime" 	column="CREATE_TIME"/>
+		<result property="crawlerTime" 	column="CRAWLER_TIME"/>
+		<result property="state" 		column="STATE"/>
+	</resultMap>
+	
+	<insert id="saveArticle" parameterClass="Article">
+		INSERT INTO ARTICLE (ID,   URL,   TITLE,   KEYWORDS,   DESCRIPTION,   CONTENT,   CREATE_TIME,  CRAWLER_TIME,  STATE)
+					VALUES	(#id#, #url#, #title#, #keywords#, #description#, #content#, #createTime#, #crawlerTime#, #state#)
+		<selectKey resultClass="int" keyProperty="id">
+			SELECT @@IDENTITY
+			AS id
+		</selectKey>
+	</insert>
+	
+	<select id="getArticleById" parameterClass="long" resultMap="ArticleMap">
+		SELECT ID, URL, TITLE, KEYWORDS, DESCRIPTION, CONTENT, CREATE_TIME, CRAWLER_TIME, STATE
+		FROM ARTICLE
+		WHERE STATE = 1 
+			  AND ID = #id#
+	</select>
+	
+</sqlMap>

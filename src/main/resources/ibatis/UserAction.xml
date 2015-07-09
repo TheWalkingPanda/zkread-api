@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+	PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap>
+	<typeAlias alias="UserAction" type="com.zkread.domain.UserAction"/>
+	
+	<resultMap class="UserAction" id="UserActionMap">
+		<result property="id" 			column="ID"/>
+		<result property="userId" 		column="USER_ID"/>
+		<result property="articleId" 	column="ARTICLE_ID"/>
+		<result property="type" 		column="TYPE"/>
+		<result property="createTime" 	column="CREATE_TIME"/>
+		<result property="from" 		column="FROM"/>
+		<result property="state" 		column="STATE"/>
+	</resultMap>
+	
+	<insert id="saveUserAction" parameterClass="UserAction">
+		INSERT INTO USER_ACTION  (ID,	 USER_ID,  ARTICLE_ID,  TYPE,	CREATE_TIME,  FROM,	  STATE) 
+					VALUES(#id#, #userId#, #articleId#, #type#, #createTime#, #from#, #state#)
+		<selectKey resultClass="int" keyProperty="id">
+			SELECT @@IDENTITY
+			AS id
+		</selectKey>
+	</insert>
+	
+	<select id="getUserActionById" parameterClass="long" resultMap="UserActionMap">
+		SELECT ID, USER_ID, ARTICLE_ID, TYPE, CREATE_TIME, FROM, STATE
+		FROM USER_ACTION
+		WHERE STATE = 1 
+			  AND ID = #id#
+	</select>
+	
+	<select id="getUserActionsByParam" parameterClass="UserAction" resultMap="UserActionMap">
+		SELECT ID, USER_ID, ARTICLE_ID, TYPE, CREATE_TIME, FROM, STATE
+		FROM USER_ACTION
+		WHERE STATE = 1
+		
+		<isNotEqual prepend="AND" property="id" compareValue="0">
+			ID=#id#
+		</isNotEqual>
+		<isNotNull prepend="AND" property="userId">
+			USER_ID=#userId#
+		</isNotNull>
+		<isNotNull prepend="AND" property="articleId">
+			ARTICLE_ID=#articleId#
+		</isNotNull>
+		<isNotNull prepend="AND" property="type">
+			TYPE=#type#
+		</isNotNull>
+		<isNotNull prepend="AND" property="createTime">
+			CREATE_TIME=#createTime#
+		</isNotNull>
+		<isNotNull prepend="AND" property="from">
+			FROM=#from#
+		</isNotNull>
+	</select>
+	
+</sqlMap>

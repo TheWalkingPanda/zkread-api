@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap 
+	PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap>
+	<typeAlias alias="User" type="com.zkread.domain.User"/>
+	
+	<resultMap class="User" id="UserMap">
+		<result property="id" column="ID"/>
+		<result property="username" 	column="USERNAME"/>
+		<result property="password" 	column="PASSWORD"/>
+		<result property="email" 		column="EMAIL"/>
+		<result property="qqId" 		column="QQ_ID"/>
+		<result property="sinaId" 		column="SINA_ID"/>
+		<result property="createTime" 	column="CREATE_TIME"/>
+		<result property="state" 		column="STATE"/>
+	</resultMap>
+	
+	<insert id="saveUser" parameterClass="User">
+		INSERT INTO USER  (ID,    USERNAME,   PASSWORD,  EMAIL,	  QQ_ID,  SINA_ID,	CREATE_TIME,  STATE) 
+					VALUES(#id#, #username#, #password#, #email#, #qqId#, #sinaId#, #createTime#, #state#)
+		<selectKey resultClass="int" keyProperty="id">
+			SELECT @@IDENTITY
+			AS id
+		</selectKey>
+	</insert>
+	
+	<update id="delUser" parameterClass="long">
+		UPDATE 	USER
+		SET		STATE	 = 0
+		WHERE	ID=#id#
+	</update>
+	
+	<update id="updateUser" parameterClass="User">
+		UPDATE 	USER
+		<dynamic prepend="SET">
+			<isNotNull prepend="AND" property="username">
+				USERNAME=#username#
+			</isNotNull>
+			<isNotNull prepend="AND" property="password">
+				PASSWORD=#password#
+			</isNotNull>
+			<isNotNull prepend="AND" property="email">
+				EMAIL=#email#
+			</isNotNull>
+			<isNotNull prepend="AND" property="qqId">
+				QQ_ID=#qqId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="sinaId">
+				SINA_ID=#sinaId#
+			</isNotNull>
+			<!-- <isNotNull prepend="AND" property="createTime">
+				CREATE_TIME=#createTime#
+			</isNotNull>
+			<isNotNull prepend="AND" property="state">
+				STATE=#state#
+			</isNotNull> -->
+		</dynamic>
+		WHERE	ID=#id#
+	</update>
+	
+	<select id="getUserById" parameterClass="long" resultMap="UserMap">
+		SELECT ID, USERNAME, PASSWORD, EMAIL, QQ_ID, SINA_ID, CREATE_TIME, STATE
+		FROM USER
+		WHERE STATE = 1 
+			  AND ID = #id#
+	</select>
+	
+	<select id="getUsersByParam" parameterClass="User" resultMap="UserMap">
+		SELECT ID, USERNAME, PASSWORD, EMAIL, QQ_ID, SINA_ID, CREATE_TIME, STATE
+		FROM USER
+		WHERE STATE = 1
+		
+		<isNotEqual prepend="AND" property="id" compareValue="0">
+			ID=#id#
+		</isNotEqual>
+		<isNotNull prepend="AND" property="username">
+			USERNAME=#username#
+		</isNotNull>
+		<!-- <isNotNull prepend="AND" property="password">
+			PASSWORD=#password#
+		</isNotNull> -->
+		<isNotNull prepend="AND" property="email">
+			EMAIL=#email#
+		</isNotNull>
+		<isNotNull prepend="AND" property="qqId">
+			QQ_ID=#qqId#
+		</isNotNull>
+		<isNotNull prepend="AND" property="sinaId">
+			SINA_ID=#sinaId#
+		</isNotNull>
+		<isNotNull prepend="AND" property="createTime">
+			CREATE_TIME=#createTime#
+		</isNotNull>
+	</select>
+	
+</sqlMap>
