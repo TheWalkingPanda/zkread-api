@@ -7,7 +7,9 @@ import org.apache.commons.logging.LogFactory;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -29,11 +31,11 @@ public class ArticleController {
 	
 	@RequestMapping(value="/articles", method=RequestMethod.POST)
 	@ResponseBody
-	public Return saveArticle(HttpServletRequest request){
+	public Return saveArticle(HttpServletRequest request, @RequestBody MultiValueMap<String, String> requestMap){
 		Return ret = new Return();
 		try {
 			ObjectMapper objectMapper = new ObjectMapper();
-			Article newArticle = objectMapper.readValue(RequestUtil.getRequestBeanJson(request), Article.class);
+			Article newArticle = objectMapper.readValue(objectMapper.writeValueAsString(requestMap.toSingleValueMap()), Article.class);
 			
 			newArticle.setCreateTime(DateUtil.getCurrentDate());
 			newArticle.setState(DataState.DATA_STATE_U);
