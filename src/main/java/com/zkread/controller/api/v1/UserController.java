@@ -9,7 +9,9 @@ import org.apache.commons.logging.LogFactory;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -18,7 +20,6 @@ import com.zkread.domain.User;
 import com.zkread.service.interfaces.IUserSV;
 import com.zkread.util.DataState;
 import com.zkread.util.DateUtil;
-import com.zkread.util.RequestUtil;
 import com.zkread.util.Return;
 
 @Controller
@@ -31,11 +32,11 @@ public class UserController {
 	
 	@RequestMapping(value="/users", method=RequestMethod.POST)
 	@ResponseBody
-	public Return addUser(HttpServletRequest request){
+	public Return addUser(HttpServletRequest request, @RequestBody MultiValueMap<String, String> requestMap){
 		Return ret = new Return();
 		try {
 			ObjectMapper objectMapper = new ObjectMapper();
-			User newUser = objectMapper.readValue(RequestUtil.getRequestBeanJson(request), User.class);
+			User newUser = objectMapper.readValue(objectMapper.writeValueAsString(requestMap.toSingleValueMap()), User.class);
 			
 			newUser.setCreateTime(DateUtil.getCurrentDate());
 			newUser.setState(DataState.DATA_STATE_U);
@@ -69,11 +70,11 @@ public class UserController {
 	
 	@RequestMapping(value="/users/{userId}", method=RequestMethod.PUT)
 	@ResponseBody
-	public Return updateUser(@PathVariable("userId") long userId, HttpServletRequest request){
+	public Return updateUser(@PathVariable("userId") long userId, HttpServletRequest request, @RequestBody MultiValueMap<String, String> requestMap){
 		Return ret = new Return();
 		try {
 			ObjectMapper objectMapper = new ObjectMapper();
-			User updateUser = objectMapper.readValue(RequestUtil.getRequestBeanJson(request), User.class);
+			User updateUser = objectMapper.readValue(objectMapper.writeValueAsString(requestMap.toSingleValueMap()), User.class);
 			
 			updateUser.setId(userId);
 			
@@ -111,11 +112,11 @@ public class UserController {
 	
 	@RequestMapping(value="/users", method=RequestMethod.GET)
 	@ResponseBody
-	public Return getUsers(HttpServletRequest request){
+	public Return getUsers(HttpServletRequest request, @RequestBody MultiValueMap<String, String> requestMap){
 		Return ret = new Return();
 		try {
 			ObjectMapper objectMapper = new ObjectMapper();
-			User paramUser = objectMapper.readValue(RequestUtil.getRequestBeanJson(request), User.class);
+			User paramUser = objectMapper.readValue(objectMapper.writeValueAsString(requestMap.toSingleValueMap()), User.class);
 			
 			List<User> userList = userSV.getUsersByParam(paramUser);
 			
