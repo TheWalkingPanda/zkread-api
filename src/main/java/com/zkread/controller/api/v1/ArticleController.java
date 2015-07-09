@@ -18,7 +18,6 @@ import com.zkread.domain.Article;
 import com.zkread.service.interfaces.IArticleSV;
 import com.zkread.util.DataState;
 import com.zkread.util.DateUtil;
-import com.zkread.util.RequestUtil;
 import com.zkread.util.Return;
 
 @Controller
