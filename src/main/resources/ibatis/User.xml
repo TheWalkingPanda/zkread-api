@@ -34,19 +34,19 @@
 	<update id="updateUser" parameterClass="User">
 		UPDATE 	USER
 		SET STATE = 1
-		<isNotNull prepend="AND" property="username">
+		<isNotNull prepend="," property="username">
 			USERNAME=#username#
 		</isNotNull>
-		<isNotNull prepend="AND" property="password">
+		<isNotNull prepend="," property="password">
 			PASSWORD=#password#
 		</isNotNull>
-		<isNotNull prepend="AND" property="email">
+		<isNotNull prepend="," property="email">
 			EMAIL=#email#
 		</isNotNull>
-		<isNotNull prepend="AND" property="qqId">
+		<isNotNull prepend="," property="qqId">
 			QQ_ID=#qqId#
 		</isNotNull>
-		<isNotNull prepend="AND" property="sinaId">
+		<isNotNull prepend="," property="sinaId">
 			SINA_ID=#sinaId#
 		</isNotNull>
 		WHERE	ID=#id#
