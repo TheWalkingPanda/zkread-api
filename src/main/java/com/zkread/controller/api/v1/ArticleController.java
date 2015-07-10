@@ -1,7 +1,5 @@
 package com.zkread.controller.api.v1;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -30,7 +28,7 @@ public class ArticleController {
 	
 	@RequestMapping(value="/articles", method=RequestMethod.POST)
 	@ResponseBody
-	public Return saveArticle(HttpServletRequest request, @RequestBody MultiValueMap<String, String> requestMap){
+	public Return saveArticle(@RequestBody MultiValueMap<String, String> requestMap){
 		Return ret = new Return();
 		try {
 			ObjectMapper objectMapper = new ObjectMapper();

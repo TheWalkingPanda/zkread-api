@@ -2,8 +2,6 @@ package com.zkread.controller.api.v1;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -32,7 +30,7 @@ public class UserController {
 	
 	@RequestMapping(value="/users", method=RequestMethod.POST)
 	@ResponseBody
-	public Return addUser(HttpServletRequest request, @RequestBody MultiValueMap<String, String> requestMap){
+	public Return addUser(@RequestBody MultiValueMap<String, String> requestMap){
 		Return ret = new Return();
 		try {
 			ObjectMapper objectMapper = new ObjectMapper();
@@ -70,7 +68,7 @@ public class UserController {
 	
 	@RequestMapping(value="/users/{userId}", method=RequestMethod.PUT)
 	@ResponseBody
-	public Return updateUser(@PathVariable("userId") long userId, HttpServletRequest request, @RequestBody MultiValueMap<String, String> requestMap){
+	public Return updateUser(@PathVariable("userId") long userId, @RequestBody MultiValueMap<String, String> requestMap){
 		Return ret = new Return();
 		try {
 			ObjectMapper objectMapper = new ObjectMapper();
@@ -112,7 +110,7 @@ public class UserController {
 	
 	@RequestMapping(value="/users", method=RequestMethod.GET)
 	@ResponseBody
-	public Return getUsers(HttpServletRequest request, @RequestBody MultiValueMap<String, String> requestMap){
+	public Return getUsers(@RequestBody MultiValueMap<String, String> requestMap){
 		Return ret = new Return();
 		try {
 			ObjectMapper objectMapper = new ObjectMapper();

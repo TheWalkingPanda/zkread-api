@@ -17,7 +17,7 @@
 	
 	<insert id="saveUserAction" parameterClass="UserAction">
 		INSERT INTO USER_ACTION  (ID,	 USER_ID,  ARTICLE_ID,  TYPE,	CREATE_TIME,  FROM,	  STATE) 
-					VALUES(#id#, #userId#, #articleId#, #type#, #createTime#, #from#, #state#)
+						   VALUES(#id#, #userId#, #articleId#, #type#, #createTime#, #from#, #state#)
 		<selectKey resultClass="int" keyProperty="id">
 			SELECT @@IDENTITY
 			AS id
