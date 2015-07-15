@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.zkread.dao.interfaces.IUserActionDAO;
+import com.zkread.dao.interfaces.ICommonDAO;
 import com.zkread.domain.UserAction;
 import com.zkread.service.interfaces.IUserActionSV;
 
@@ -13,18 +13,20 @@ import com.zkread.service.interfaces.IUserActionSV;
 public class UserActionSVImpl implements IUserActionSV {
 
 	@Autowired
-	private IUserActionDAO userActionDao;
+	private ICommonDAO<UserAction> commonDao;
 	
-	public long saveUserAction(UserAction userAction) {
-		return userActionDao.saveUserAction(userAction);
+	public long saveUserAction(UserAction newAction) {
+		return commonDao.save(newAction);
 	}
 
 	public UserAction getUserActionById(long userActionId) {
-		return userActionDao.getUserActionById(userActionId);
+		UserAction theAction = new UserAction();
+		theAction.setId(userActionId);
+		return commonDao.getById(theAction);
 	}
 
 	public List<UserAction> getUserActionsByParam(UserAction paramUserAction) {
-		return userActionDao.getUserActionsByParam(paramUserAction);
+		return commonDao.getByParam(paramUserAction);
 	}
 
 }

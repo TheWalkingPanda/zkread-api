@@ -15,8 +15,8 @@ public class UserSVImpl implements IUserSV {
 	@Autowired
 	private ICommonDAO<User> commonDao;
 	
-	public long saveUser(User user) {
-		return commonDao.save(user);
+	public long saveUser(User newUser) {
+		return commonDao.save(newUser);
 	}
 
 	public int delUser(long userId) {
@@ -25,8 +25,8 @@ public class UserSVImpl implements IUserSV {
 		return commonDao.del(delUser);
 	}
 
-	public int updateUser(User user) {
-		return commonDao.update(user);
+	public int updateUser(User updateUser) {
+		return commonDao.update(updateUser);
 	}
 
 	public User getUserById(long userId) {
