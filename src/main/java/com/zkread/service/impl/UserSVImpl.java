@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.zkread.dao.interfaces.IUserDAO;
+import com.zkread.dao.interfaces.ICommonDAO;
 import com.zkread.domain.User;
 import com.zkread.service.interfaces.IUserSV;
 
@@ -13,26 +13,30 @@ import com.zkread.service.interfaces.IUserSV;
 public class UserSVImpl implements IUserSV {
 
 	@Autowired
-	private IUserDAO userDao;
+	private ICommonDAO<User> commonDao;
 	
 	public long saveUser(User user) {
-		return userDao.saveUser(user);
+		return commonDao.save(user);
 	}
 
 	public int delUser(long userId) {
-		return userDao.delUser(userId);
+		User delUser = new User();
+		delUser.setId(userId);
+		return commonDao.del(delUser);
 	}
 
 	public int updateUser(User user) {
-		return userDao.updateUser(user);
+		return commonDao.update(user);
 	}
 
 	public User getUserById(long userId) {
-		return userDao.getUserById(userId);
+		User theUser = new User();
+		theUser.setId(userId);
+		return commonDao.getById(theUser);
 	}
 
 	public List<User> getUsersByParam(User paramUser) {
-		return userDao.getUsersByParam(paramUser);
+		return commonDao.getByParam(paramUser);
 	}
 	
 }
