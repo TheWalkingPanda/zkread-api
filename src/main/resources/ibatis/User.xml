@@ -25,7 +25,7 @@
 		</selectKey>
 	</insert>
 	
-	<update id="delUser" parameterClass="long">
+	<update id="delUser" parameterClass="User">
 		UPDATE 	USER
 		SET		STATE	 = 0
 		WHERE	ID=#id#
@@ -53,7 +53,7 @@
 				AND STATE = 1
 	</update>
 	
-	<select id="getUserById" parameterClass="long" resultMap="UserMap">
+	<select id="getUserById" parameterClass="User" resultMap="UserMap">
 		SELECT ID, USERNAME, PASSWORD, EMAIL, QQ_ID, SINA_ID, CREATE_TIME, STATE
 		FROM USER
 		WHERE STATE = 1 
